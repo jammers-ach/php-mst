@@ -36,7 +36,8 @@ function get_two_cities($city1,$city2){
  * @returns associative array:
  */
 function parse_city_results($results){
-    if($results['status'] == 'OK'){
+    $status_code = $results["status"];
+    if($status_code == "OK"){
         $route = $results['routes'][0];
         $leg = $route['legs'][0];
 
@@ -48,9 +49,13 @@ function parse_city_results($results){
         $new_results['duration'] = $leg['duration'];
         $new_results['distance'] = $leg['distance'];
         return $new_results;
-    } else {
-        $status_code = $results["status"];
-        echo $status_code;
+    } elseif($status_code == "ZERO_RESULTS"){
+        return NULL;
+    } elseif($status_code == "NOT_FOUND"){
+        return NULL;
+
+    }else {
+        error_log("Error of $status_code for $i,$j");
         throw new Exception("Error from google: status $status_code");
     }
 }

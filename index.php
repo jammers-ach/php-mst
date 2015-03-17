@@ -24,9 +24,14 @@ function process_graph_results(results){
 
     //Pass the results to the distance table and graph
     results = JSON.parse(results); //TODO find out why I need to parse this, jquery.form errors?
+    console.log(results);
     make_distance_table(results);
     load_graph_to_map(results);
-    console.log(results);
+    handle_errors(results);
+}
+
+function handle_error(results){
+
 }
 
 /**
@@ -44,7 +49,9 @@ $(function(){
     $(document).on('keydown','.last-city',function(e){
         if($(this).val() != ''){
             $(this).removeClass('last-city');
-            $(this).parent().append($('<input/>').attr('type','text').attr('name','cities[]').attr('placeholder','e.g. Helsinki').addClass('form-control').addClass('last-city') );
+            var formgroup = $('<div class="form-group"></div>');
+            formgroup.append($('<input/>').attr('type','text').attr('name','cities[]').attr('placeholder','e.g. Helsinki').addClass('form-control').addClass('last-city') );
+            $(this).parent().parent().append(formgroup);
         }
     });
 
@@ -54,6 +61,7 @@ $(function(){
         taType:  'json',
         success:process_graph_results,
         beforeSubmit:show_throbber,
+        error:handle_error,
     });
 
 });
@@ -82,7 +90,9 @@ $(function(){
             <h2>City Names</h2>
             <p>Enter the names of some cities</p>
             <div id="city-holder">
-            <input type="text" class="form-control last-city"  name="cities[]" placeholder="e.g. Helsinki" id="city1"/>
+            <div class='form-group'>
+                <input type="text" class="form-control last-city"  name="cities[]" placeholder="e.g. Helsinki" id="city1"/>
+            </div>
             </div>
             <button class="btn btn-primary">Calculate MST</button>
 

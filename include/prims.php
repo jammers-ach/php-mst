@@ -9,7 +9,7 @@
  * Checks if $seen contains $all
  */
 function contains_all_verticies($seen,$all){
-    return count(array_diff($all,$seen)) == 0;
+    return empty(array_diff($all,$seen));
 }
 
 /**

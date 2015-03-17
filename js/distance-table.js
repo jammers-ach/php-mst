@@ -44,3 +44,24 @@ function make_distance_table(results){
 
     $('#distance-table').append(table);
 }
+
+/**
+ * Highlights boxes if there are any errors
+ */
+function handle_errors(results){
+
+    //Remove all current highlighted ones
+    $('.form-group.has-error').removeClass('has-error');
+
+    //go through each city, try to find the input with that value
+    for(city in results.errors){
+        //because the val isn't an element attribute we can't use input[val=XX]
+        $('input').each(function(e){
+            console.log($(this).val(),results.errors[city],city);
+            if($(this).val() == results.errors[city]){
+                $(this).parent().addClass('has-error');
+            }
+        });
+    }
+
+}
