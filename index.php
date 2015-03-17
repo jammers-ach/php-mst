@@ -4,20 +4,42 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="js/jquery.form.js"></script>
+<script src="js/distance-table.js"></script>
 <title>Google maps MST</title>
 
 
 <script>
+function process_graph_results(results){
+
+    results = JSON.parse(results);
+    make_distance_table(results);
+}
+
+function show_throbber(results){
+    $('#distance-table').html('Loading.....');
+}
 $(function(){
+
+    //Expanding city fields,
+    //Keep a track of the last one, if we make keypresses add another one make
+    //that the lastone
+    //TODO add something to remove empty ones
     $(document).on('keydown','.last-city',function(e){
         if($(this).val() != ''){
             $(this).removeClass('last-city');
             $(this).parent().append($('<input/>').attr('type','text').attr('name','cities[]').attr('placeholder','e.g. Helsinki').addClass('form-control').addClass('last-city') );
-print_r(parse_city_resutls($res));
         }
+    });
+
+
+    //Ajax form submit
+    $('#main-form').ajaxForm({
+        taType:  'json',
+        success:process_graph_results,
+        beforeSubmit:show_throbber,
     });
 });
 
@@ -29,13 +51,13 @@ print_r(parse_city_resutls($res));
  <div class="container">
 
       <div class="jumbotron">
-        <h1>Google Maps Minimum Spanning tree</h1>
+        <h1>Google Maps Minimum Spanning Tree</h1>
         <p class="lead">Enter the name of cities, press the go button, and behold the minimum spanning tree between them</p>
       </div>
 
       <div class="row ">
         <div class="col-lg-6">
-        <form action="mst.php">
+        <form action="mst.php" id="main-form">
             <h2>City Names</h2>
             <p>Enter the names of some cities</p>
             <div id="city-holder">
@@ -46,7 +68,9 @@ print_r(parse_city_resutls($res));
         </form>
         </div>
         <div class='col-lg-6'>
-        Space for the map
+            <div id='distance-table'></div>
+            <div id='map'></div>
+
         </div>
       </div>
     </div> <!-- /container -->
