@@ -37,8 +37,9 @@ function process_graph_results(results){
 }
 
 function request_failed(results){
-    alert('500 error from server :(');
+    alert('500 error from server: possibly over query limit?');
     stop_throbber();
+
 }
 
 function start_throbber(){

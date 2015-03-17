@@ -21,6 +21,7 @@ function calculate_distance_table($cities){
     //remove all the blank cities
     $cities = array_filter($cities);
 
+    //Create our associative table where each index will give you route information
     foreach($cities as $city){
         $cities2[$city] = array();
     }
