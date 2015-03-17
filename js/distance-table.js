@@ -3,12 +3,19 @@
  * fills in a distance table for results
  */
 
+/**
+ * Makes the text that goes in each distance cell
+ */
+function make_cell_text(r){
+    return r.distance.text + '<br/>' + r.duration.text;
+}
+
+/**
+ * Makes the table that tells you how far it is from one city to another
+ */
 function make_distance_table(results){
     $('#distance-table').html('');
     var table = $('<table></table>').addClass('distance-table table table-bordered');
-
-    console.log(results);
-    console.log(results.locations);
 
     //Now make a heading row
     var header_row = $('<tr></tr>');
@@ -24,18 +31,15 @@ function make_distance_table(results){
         row.append('<th>'+city+'</th>');
         for (city2 in results.locations){
             var r = results.distances[city][city2];
-            console.log(r);
             var cell = $('<td></td>');
             if(r != undefined){
-                cell.html(r.distance.text + '<br/>' + r.duration.text);
+                cell.html(make_cell_text(r));
             }
-
             row.append(cell)
         }
         table.append(row);
     }
 
 
-    $('#distance-table').html('').append(table);
-
+    $('#distance-table').append(table);
 }

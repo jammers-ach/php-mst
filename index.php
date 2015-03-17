@@ -1,23 +1,37 @@
+<?php
+include 'include/api_key.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <!-- Latest compiled and minified JavaScript -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=<?php echo $key;?>"></script>
+
+
 <script src="js/jquery.form.js"></script>
 <script src="js/distance-table.js"></script>
+<script src="js/map.js"></script>
+
 <title>Google maps MST</title>
 
 
 <script>
 function process_graph_results(results){
 
-    results = JSON.parse(results);
+    //Pass the results to the distance table and graph
+    results = JSON.parse(results); //TODO find out why I need to parse this, jquery.form errors?
     make_distance_table(results);
+    load_graph_to_map(results);
+    console.log(results);
 }
 
+/**
+ * Show's the little loading throbber
+ */
 function show_throbber(results){
     $('#distance-table').html('Loading.....');
 }
@@ -41,9 +55,15 @@ $(function(){
         success:process_graph_results,
         beforeSubmit:show_throbber,
     });
+
 });
 
 </script>
+<style type="text/css">
+#map { height: 100%; margin: 0; padding: 0; height:500px;}
+ </style>
+
+
 </head>
 
 
