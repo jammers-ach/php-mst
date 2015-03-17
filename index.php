@@ -15,7 +15,8 @@ $(function(){
     $(document).on('keydown','.last-city',function(e){
         if($(this).val() != ''){
             $(this).removeClass('last-city');
-            $(this).parent().append($('<input/>').attr('type','text').attr('name','cities').attr('placeholder','e.g. Helsinki').addClass('form-control').addClass('last-city') );
+            $(this).parent().append($('<input/>').attr('type','text').attr('name','cities[]').attr('placeholder','e.g. Helsinki').addClass('form-control').addClass('last-city') );
+print_r(parse_city_resutls($res));
         }
     });
 });
@@ -38,7 +39,7 @@ $(function(){
             <h2>City Names</h2>
             <p>Enter the names of some cities</p>
             <div id="city-holder">
-            <input type="text" class="form-control last-city"  name="cities" placeholder="e.g. Helsinki" id="city1"/>
+            <input type="text" class="form-control last-city"  name="cities[]" placeholder="e.g. Helsinki" id="city1"/>
             </div>
             <button class="btn btn-primary">Calculate MST</button>
 
