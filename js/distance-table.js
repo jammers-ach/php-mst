@@ -35,6 +35,7 @@ function make_distance_table(results){
             if(r != undefined){
                 cell.html(make_cell_text(r));
             }
+            cell.attr('id',city + '-' + city2);
             row.append(cell)
         }
         table.append(row);

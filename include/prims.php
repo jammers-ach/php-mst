@@ -20,7 +20,9 @@ function distance_lookup($c1,$c2,$distance_table){
     return $distance_table[$c1][$c2]['duration']['value'];
 }
 
-
+/**
+ * find the smallest vertex from $v1 to the ones in $vertices
+ */
 function find_min_vertex($v1,$vertices,$distance_table){
     $min = INF;
     $min_i = 0;
@@ -36,6 +38,9 @@ function find_min_vertex($v1,$vertices,$distance_table){
 
 }
 
+/**
+ * Delete an element from an array
+ */
 function array_delete($array, $element) {
     return array_diff($array, [$element]);
 }
@@ -46,6 +51,8 @@ function array_delete($array, $element) {
  * @returns an array of names for each vertex in this e.g. ((Helsinki,Stockholm),(Stockholm,Gdansk),(Gdansk,Vilinus))
  */
 function prims_mst($distance_table){
+    //TODO use sets or something similar to sets for this
+    //TODO remove directionality by assuming in = out
     $u = array();
     $v = array_keys($distance_table);
 
@@ -59,10 +66,6 @@ function prims_mst($distance_table){
     $i = 0; //Loop protector to prevent infinite loops
     $max_ittr = count($all_vertexes)+4;
     while(!contains_all_verticies($u,$all_vertexes) && $i < $max_ittr){
-        //Find all the elements in v
-        //print_r($v);
-        //print_r($u);
-        //print_r($new_edges);
 
         //Now go through all the edges in $v find it's closest neighbour in $u
         //Find the miinmum of those and put that vertex in $v
