@@ -7,6 +7,7 @@
  */
 
 include 'directions.php';
+include 'prims.php';
 
 /**
  * Given a list of cities creates a table showing the dinstances between them
@@ -31,8 +32,9 @@ function calculate_distance_table($cities){
         }
     }
 
+    $spanning_tree = prims_mst($cities2);
 
-    return array("distances"=>$cities2,"locations"=>$locations);
+    return array("distances"=>$cities2,"locations"=>$locations,"spanning_tree"=>$spanning_tree);
 
 }
 
