@@ -50,6 +50,7 @@ function parse_city_results($results){
         return $new_results;
     } else {
         $status_code = $results["status"];
+        echo $status_code;
         throw new Exception("Error from google: status $status_code");
     }
 }
