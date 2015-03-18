@@ -52,7 +52,6 @@ function array_delete($array, $element) {
  */
 function prims_mst($distance_table){
     //TODO use sets or something similar to sets for this
-    //TODO remove directionality by assuming in = out
     $u = array();
     $v = array_keys($distance_table);
 
@@ -80,7 +79,6 @@ function prims_mst($distance_table){
                 $min_j = $v1;
             }
         }
-        //echo "$min_i - $min_j\n";
         //add the edge to the edges and the vertex to $u
         array_push($u,$min_j);
         array_push($new_edges,array($min_j,$min_i));

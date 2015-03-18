@@ -10,11 +10,11 @@ include 'directions.php';
 include 'prims.php';
 
 /**
- * Given a list of cities creates a table showing the dinstances between them
- * @returns an associative array of:
+ * Calculates the distances between citites
+ * @param $cities a list of cities
+ *  @returns an associative array of:
  *      distances: the routes and distances between cities
  *      locations: the lat/long of each city it found
- *      spanning_tree: a list of (city1,city2) vertexes in the ST
  *      errors: list of cities that couldn't be found
  *      status: ok/fail
  */
@@ -58,13 +58,27 @@ function calculate_distance_table($cities){
         }
     }
 
-    $spanning_tree = prims_mst($cities2);
-
     return array("distances"=>$cities2,
         "locations"=>$locations,
-        "spanning_tree"=>$spanning_tree,
         "errors"=>$error_cities,
         "status"=>"OK");
+
+
+}
+
+/**
+ * Calculates the distances between citites and the spanning trees
+ * @param $cities a list of cities
+ *  @returns same as @see calculate_distance_table  but with
+ *      spanning_tree: a list of (city1,city2) edges for the minimum spanning tree
+ **/
+function calculate_all($cities){
+
+    $results = calculate_distance_table($cities);
+
+    $results["spanning_tree"] = prims_mst($results["distances"]);
+
+    return $results;
 
 }
 
