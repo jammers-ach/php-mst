@@ -11,7 +11,12 @@ include 'prims.php';
 
 /**
  * Given a list of cities creates a table showing the dinstances between them
- *
+ * @returns an associative array of:
+ *      distances: the routes and distances between cities
+ *      locations: the lat/long of each city it found
+ *      spanning_tree: a list of (city1,city2) vertexes in the ST
+ *      errors: list of cities that couldn't be found
+ *      status: ok/fail
  */
 function calculate_distance_table($cities){
     $cities2 = array();
@@ -55,9 +60,14 @@ function calculate_distance_table($cities){
 
     $spanning_tree = prims_mst($cities2);
 
-    return array("distances"=>$cities2,"locations"=>$locations,"spanning_tree"=>$spanning_tree,"errors"=>$error_cities);
+    return array("distances"=>$cities2,
+        "locations"=>$locations,
+        "spanning_tree"=>$spanning_tree,
+        "errors"=>$error_cities,
+        "status"=>"OK");
 
 }
+
 
 
 

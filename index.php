@@ -30,10 +30,14 @@ function process_graph_results(results){
     //Pass the results to the distance table and graph
     results = JSON.parse(results); //TODO find out why I need to parse this, jquery.form errors?
     console.log(results);
-    make_distance_table(results);
-    load_graph_to_map(results);
-    handle_errors(results);
     stop_throbber();
+    if(results.status == "OK"){
+        make_distance_table(results);
+        load_graph_to_map(results);
+        handle_errors(results);
+    }else{
+        alert(results.error_message);
+    }
 }
 
 function request_failed(results){

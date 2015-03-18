@@ -6,6 +6,9 @@
  */
 include 'api_key.php';
 
+
+define("retries_max",2);
+
 /**
  * Contacts google to find the direction distance between two cities
  * @returns just returns the parsed JSON @see https://developers.google.com/maps/documentation/directions/#DirectionsRequests
@@ -35,7 +38,7 @@ function get_two_cities($city1,$city2){
  * @param $results @see https://developers.google.com/maps/documentation/directions/#DirectionsRequests
  * @returns associative array:
  */
-function parse_city_results($results){
+function parse_city_results($results,$tries=0){
     $status_code = $results["status"];
     if($status_code == "OK"){
         $route = $results['routes'][0];
@@ -53,10 +56,23 @@ function parse_city_results($results){
         return NULL;
     } elseif($status_code == "NOT_FOUND"){
         return NULL;
+    } elseif($status_code == "OVER_QUERY_LIMIT"){
+        //If we're over query it might just be because we've made too many queries in a second
+        //So just try again until we get the error
+        if($tires > retries_max){
+
+            $error_message = $results["error_message"];
+            throw new Exception("Error from google: status $status_code, $error_message ");
+        }else{
+            error_log("Overy query limit, sleeping");
+            sleep(1);
+            return parse_city_results($results,$tries+1);
+        }
 
     }else {
         error_log("Error of $status_code for $i,$j");
-        throw new Exception("Error from google: status $status_code");
+        $error_message = $results["error_message"];
+        throw new Exception("Error from google: status $status_code, $error_message ");
     }
 }
 ?>
