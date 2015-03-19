@@ -73,7 +73,7 @@ function handle_errors(results){
 function load_execution_times(results){
     $('#execution-time').show();
     $('#requests-total').html(results.total_requests);
-    $('#mst-time').html(results.graph_time.toFixed(3) + 's');
+    $('#mst-time').html((results.graph_time *1000).toFixed(3) + 'ms');
 
     var total = 0.0;
     for (i in results.requests_time){
