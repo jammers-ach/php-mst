@@ -88,6 +88,7 @@ $(function(){
 #map { height: 100%; margin: 0; padding: 0; height:500px}
 #execution-time{display:none;margin-bottom:50px;}
 #main-form{margin-bottom:15px;}
+.table-high{background-color:#e9e9e9;}
  </style>
 
 
