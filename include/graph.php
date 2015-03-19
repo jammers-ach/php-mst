@@ -25,6 +25,8 @@ function calculate_distance_table($cities){
 
     //remove all the blank cities
     $cities = array_filter($cities);
+    $total_requests = 0;
+    $requests_time = array();
 
     //Create our associative table where each index will give you route information
     foreach($cities as $city){
@@ -39,8 +41,14 @@ function calculate_distance_table($cities){
 
             //Get the rsults from the walk between the two
             $c2 = $cities[$j];
-            $x = get_two_cities($c1,$c2);
-            $results = parse_city_results($x);
+
+            $start = microtime(true); //track execution time
+            $x = get_two_cities($c1,$c2); //make request
+            $results = parse_city_results($x);//parse response
+            $time_elapsed = microtime(true) - $start;
+
+            $total_requests += 1;
+            array_push($requests_time,$time_elapsed);
 
             //If it was a real result, put it in both both directions
             if(!is_null($results)){
@@ -58,10 +66,15 @@ function calculate_distance_table($cities){
         }
     }
 
+
+
+
     return array("distances"=>$cities2,
         "locations"=>$locations,
         "errors"=>$error_cities,
-        "status"=>"OK");
+        "status"=>"OK",
+        "total_requests"=>$total_requests,
+        "requests_time"=>$requests_time,);
 
 
 }
@@ -74,8 +87,11 @@ function calculate_distance_table($cities){
  **/
 function calculate_all($cities){
 
+    $start = microtime(true); //track execution time
     $results = calculate_distance_table($cities);
+    $time_elapsed = microtime(true) - $start;
 
+    $results["graph_time"] = $time_elapsed;
     $results["spanning_tree"] = prims_mst($results["distances"]);
 
     return $results;

@@ -65,3 +65,21 @@ function handle_errors(results){
     }
 
 }
+
+
+/**
+ * Loads the execution times into the table
+ */
+function load_execution_times(results){
+    $('#execution-time').show();
+    $('#requests-total').html(results.total_requests);
+    $('#mst-time').html(results.graph_time.toFixed(3) + '&micro;s');
+
+    var total = 0.0;
+    for (i in results.requests_time){
+        total += results.requests_time[i];
+    }
+
+    $('#requests-time').html( total.toFixed(3) + '&micro;s / ' + (total/results.requests_time.length).toFixed(3) + '&micro;s');
+
+}

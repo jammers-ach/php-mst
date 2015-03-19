@@ -92,8 +92,8 @@ function draw_spanning_tree(results){
         var i = results.spanning_tree[v][0];
         var j = results.spanning_tree[v][1];
         var line = results.distances[i][j].line;
-        console.log(i,j,results.distances[i][j]);
-        console.log(line);
+        //console.log(i,j,results.distances[i][j]);
+        //console.log(line);
         // Construct the polygon
         var poly = new google.maps.Polyline({
             path: google.maps.geometry.encoding.decodePath(line),

@@ -35,6 +35,7 @@ function process_graph_results(results){
         make_distance_table(results);
         load_graph_to_map(results);
         handle_errors(results);
+        load_execution_times(results);
     }else{
         alert(results.error_message);
     }
@@ -84,9 +85,8 @@ $(function(){
 
 </script>
 <style type="text/css">
-#map { height: 100%; margin: 0; padding: 0; height:500px;margin-bottom:50px;}
-.table-high {background-color:#e9e9e9;}
-#messages{display:none;}
+#map { height: 100%; margin: 0; padding: 0; height:500px}
+#execution-time{display:none;margin-bottom:50px;}
 #main-form{margin-bottom:15px;}
  </style>
 
@@ -121,6 +121,13 @@ $(function(){
         </div>
         <div class='col-lg-6'>
             <div id='map'></div>
+            <div id='execution-time'>
+                <table class='table table-bordered'>
+                <tr><th>Number of gogole requests made:</th><td id='requests-total'></td></tr>
+                <tr><th>Time for google requests (total/avg):</th><td id='requests-time'></td></tr>
+                <tr><th>Time for computing MST:</th><td id='mst-time'></td></tr>
+</table>
+                </div>
 
         </div>
       </div>
