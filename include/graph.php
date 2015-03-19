@@ -87,12 +87,13 @@ function calculate_distance_table($cities){
  **/
 function calculate_all($cities){
 
-    $start = microtime(true); //track execution time
     $results = calculate_distance_table($cities);
+
+    $start = microtime(true); //track execution time
+    $results["spanning_tree"] = prims_mst($results["distances"]);
     $time_elapsed = microtime(true) - $start;
 
     $results["graph_time"] = $time_elapsed;
-    $results["spanning_tree"] = prims_mst($results["distances"]);
 
     return $results;
 
